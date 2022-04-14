@@ -1,0 +1,7 @@
+﻿Title,Link,Summary,Tags
+My First Story,https://google.com,Story summary text can be anything you want. It's a free form text field! And everything can be set from a simple spreadsheet!,"first story, placeholder, epic"
+Second Story,https://bing.com,"All you as the author need to do, is to simply fill in the spreadsheet with values for Title, Link, Summary, and Tags, and then save as a CSV. ","second, placeholder, fluff"
+Third Story,https://duckduckgo.com,"Once you have your CSV, just place it alongside the bundle files. There's nothing else to do. 
+
+When someone loads the page, it will fetch your CSV, parse it, and load stories dynamically. To update your stories, just add a line to the CSV!","demo, placeholder, crack"
+Forth Story,https://wikipedia.org,"Everything can be modified to suit your needs. The code is small (~100 lines) including the HTML, and uses tachyons to do manage style, so you can easily try out new colors and styles by just editing the html!","demo, real text, truth"
