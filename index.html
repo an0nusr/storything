@@ -34,7 +34,7 @@
                         <a class="link white dim" :href="story.Link" x-text="story.Title"></a>
                     </h1>
                     <div class="pa3 bt">
-                    <p class="f6 f5-ns lh-copy measure mv0" x-text="story.Summary"></p>
+                    <p class="f6 f5-ns lh-copy measure mv0" x-html="story.Summary.replaceAll('\n', '<br/>')"></p>
                     </div>
                     <div class="pa3">
                         <template x-for="tag in story.Tags">
