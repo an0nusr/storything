@@ -21,21 +21,23 @@
 
         <form class="pa4 black-80">
             <div class="measure center">
-              <label for="tags" class="f6 b db mb2">Tags <span class="normal black-60">(optional)</span></label>
-              <input id="tags" class="input-reset ba b--black-20 pa2 mb2 db w-100" type="text" aria-describedby="tags-desc">
-              <small id="tags-desc" class="f6 black-60 db mb2">Tags to use for filtering. Hit Esc to clear.</small>
+            <label for="tags" class="f6 b db mb2">Tags <span class="normal black-60">(optional)</span></label>
+            <input id="tags" class="input-reset ba b--black-20 pa2 mb2 db w-100" type="text" aria-describedby="tags-desc">
+            <small id="tags-desc" class="f6 black-60 db mb2">Tags to use for filtering. Hit Esc to clear.</small>
             </div>
         </form>
 
-        <div x-data="cards" x-cloak class="flex flex-wrap justify-around">
-            <template x-for="card in cards" @tagchange.document="handleTagChange">
+        <div x-cloak x-data="storyData" class="flex flex-wrap justify-around">
+            <template x-for="story in stories" @tagchange.document="handleTagChange">
                 <article class="hidden ba mv4 ma2 w-40-ns w-100">
-                    <h1 class="f4 bg-near-black white mv0 pv2 ph3" x-text="card.title"></h1>
+                    <h1 class="f4 bg-near-black white mv0 pv2 ph3">
+                        <a class="link white dim" :href="story.Link" x-text="story.Title"></a>
+                    </h1>
                     <div class="pa3 bt">
-                    <p class="f6 f5-ns lh-copy measure mv0" x-text="card.description"></p>
+                    <p class="f6 f5-ns lh-copy measure mv0" x-text="story.Summary"></p>
                     </div>
                     <div class="pa3">
-                        <template x-for="tag in card.tags">
+                        <template x-for="tag in story.Tags">
                             <a class="bg-light-blue white pa2 ma1 dib link dim" x-text="tag" href="#" @click="addTag(tag)"></a>
                         </template>
                     </div>
@@ -43,9 +45,10 @@
             </template>
         </div>
         
-        <script type="module" async defer>
+        <script type="module">
             import Alpine from "alpinejs"
             import Tagify from '@yaireo/tagify'
+            import Papa from 'papaparse'
 
             let tagify = new Tagify(document.getElementById("tags"))
 
@@ -66,30 +69,45 @@
             })
 
 
-            Alpine.data('cards', () => ({
-                cards: [],
-                allCards: [],
+            Alpine.data('storyData', () => ({
+                stories: [],
+                allStories: [],
 
                 handleTagChange(evt) {
                     let filterTags = evt.detail
 
-                    if (filterTags.length == 0) { this.cards = this.allCards }
+                    if (filterTags.length == 0) { this.stories = this.allStories }
                     else {
-                        this.cards = this.allCards.filter(c => filterTags.every(ft => c.tags.includes(ft)))
+                        this.stories = this.allStories.filter(s => filterTags.every(ft => s.Tags.includes(ft)))
                     }
                 },
 
                 addTag(tag) {
+                    console.log("adding tag: " + tag)
                     tagify.addTags([tag])
+                    console.log("tag input is: " + this.taginput)
                 },
 
                 init: async function() {
-                    let data = await fetch("/cards.json").then(r => r.json())
+                    let data = await new Promise(resolve => {
+                        Papa.parse("stories.csv", {
+                            download: true,
+                            header: true,
+                            complete: function(results) {
+                                let stories = results.data
+
+                                // convert tags to arrays
+                                stories = stories.filter(x => x.Title.length > 0).map(x => ({...x, Tags: x.Tags.split(',').map(t => t.trim())}))
+                                resolve(stories)
+                            }
+                        })
+                    })
+
                     console.log(data)
 
-                    this.allCards = data.cards
-                    this.cards = data.cards
-                    tagify.whitelist = [... new Set(data.cards.flatMap(x => x.tags).sort())]
+                    this.allStories = data
+                    this.stories = data
+                    tagify.whitelist = [... new Set(data.flatMap(x => x.Tags).sort())]
                 }
             }))
 

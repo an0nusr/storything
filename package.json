@@ -1,13 +1,13 @@
 {
   "name": "cardsAndTags",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "source": "index.html",
   "scripts": {
     "start": "parcel",
     "build": "parcel build"
   },
+  "browserslist": "> 0.5%, last 2 versions, not dead, not IE 11",
   "devDependencies": {
     "parcel": "^2.4.1",
     "parcel-reporter-static-files-copy": "^1.3.4"
