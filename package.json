@@ -5,7 +5,7 @@
   "source": "index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build --public-url ./"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead, not IE 11",
   "devDependencies": {
