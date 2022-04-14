@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
+        <link rel="stylesheet" href="node_modules/@yaireo/tagify/dist/tagify.css">
+    </head>
+    <body class="center mt5 pa2" style="max-width: 60em">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <h1 class="f1 lh-title tc">Stories</h1> 
+
+        <form class="pa4 black-80">
+            <div class="measure center">
+              <label for="tags" class="f6 b db mb2">Tags <span class="normal black-60">(optional)</span></label>
+              <input id="tags" class="input-reset ba b--black-20 pa2 mb2 db w-100" type="text" aria-describedby="tags-desc">
+              <small id="tags-desc" class="f6 black-60 db mb2">Tags to use for filtering. Hit Esc to clear.</small>
+            </div>
+        </form>
+
+        <div x-data="cards" x-cloak class="flex flex-wrap justify-around">
+            <template x-for="card in cards" @tagchange.document="handleTagChange">
+                <article class="hidden ba mv4 ma2 w-40-ns w-100">
+                    <h1 class="f4 bg-near-black white mv0 pv2 ph3" x-text="card.title"></h1>
+                    <div class="pa3 bt">
+                    <p class="f6 f5-ns lh-copy measure mv0" x-text="card.description"></p>
+                    </div>
+                    <div class="pa3">
+                        <template x-for="tag in card.tags">
+                            <a class="bg-light-blue white pa2 ma1 dib link dim" x-text="tag" href="#" @click="addTag(tag)"></a>
+                        </template>
+                    </div>
+                </article>
+            </template>
+        </div>
+        
+        <script type="module" async defer>
+            import Alpine from "alpinejs"
+            import Tagify from '@yaireo/tagify'
+
+            let tagify = new Tagify(document.getElementById("tags"))
+
+            document.getElementById("tags").addEventListener("change", (e) => {
+                let tags = JSON.parse(e.target.value ? e.target.value : "[]")
+                if (tags.length > 0) {
+                    tags = tags.map((x) => x.value)
+                }
+                
+                let evt = new CustomEvent("tagchange", {detail: tags})
+                document.dispatchEvent(evt)
+            })
+
+            window.addEventListener("keydown", (e) => {
+                if (e.key == "Escape") {
+                    tagify.removeAllTags()
+                }
+            })
+
+
+            Alpine.data('cards', () => ({
+                cards: [],
+                allCards: [],
+
+                handleTagChange(evt) {
+                    let filterTags = evt.detail
+
+                    if (filterTags.length == 0) { this.cards = this.allCards }
+                    else {
+                        this.cards = this.allCards.filter(c => filterTags.every(ft => c.tags.includes(ft)))
+                    }
+                },
+
+                addTag(tag) {
+                    tagify.addTags([tag])
+                },
+
+                init: async function() {
+                    let data = await fetch("/cards.json").then(r => r.json())
+                    console.log(data)
+
+                    this.allCards = data.cards
+                    this.cards = data.cards
+                    tagify.whitelist = [... new Set(data.cards.flatMap(x => x.tags).sort())]
+                }
+            }))
+
+            Alpine.start()
+
+            
+        </script>
+
+        
+    </body>
+</html>
