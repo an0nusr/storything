@@ -8,3 +8,5 @@ and update the stories.csv file to your needs.
 
 When someone loads a page, the javascript wil read the csv file, and render the
 stories, and provide a simple and easy way for a reader to search using tags!
+
+You can see a demo of the tool at https://anonusr.org/storything
