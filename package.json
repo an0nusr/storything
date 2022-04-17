@@ -2,7 +2,7 @@
   "name": "storything",
   "version": "1.0.0",
   "license": "MIT",
-  "source": "index.html",
+  "source": "src/index.html",
   "scripts": {
     "start": "parcel",
     "build": "parcel build --public-url ./"
