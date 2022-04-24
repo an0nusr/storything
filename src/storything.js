@@ -1,7 +1,7 @@
 globalThis.__VUE_OPTIONS_API__ = true;
 globalThis.__VUE_PROD_DEVTOOLS__ = false;
 
-import {createApp} from 'vue'
+import {createApp} from 'petite-vue'
 import Tagify from '@yaireo/tagify'
 import Papa from 'papaparse'
 
@@ -24,27 +24,23 @@ window.addEventListener("keydown", (e) => {
 })
 
 const app = createApp({
-    data() {
-        return {
-            stories: [],
-            allStories: []
+
+    stories: [],
+    allStories: [],
+
+    handleTagChange(evt) {
+        let filterTags = evt.detail
+        if (filterTags.length == 0) { this.stories = this.allStories }
+        else {
+            this.stories = this.allStories.filter(s => filterTags.every(ft => s.Tags.includes(ft)))
         }
     },
 
-    methods: {
-        handleTagChange(evt) {
-            let filterTags = evt.detail
-            if (filterTags.length == 0) { this.stories = this.allStories }
-            else {
-                this.stories = this.allStories.filter(s => filterTags.every(ft => s.Tags.includes(ft)))
-            }
-        },
-
-        addTag(tag) {
-            tagify.addTags([tag])
-        },
+    addTag(tag) {
+        tagify.addTags([tag])
     },
-    mounted: async function() {
+
+    init: async function() {
         let data = await new Promise(resolve => {
             Papa.parse("stories.csv", {
                 download: true,
@@ -68,6 +64,6 @@ const app = createApp({
         document.addEventListener('tagchange', this.handleTagChange)
     }
 })
-app.mount('#app')
+app.mount()
 
 
