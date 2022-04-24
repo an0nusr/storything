@@ -1,4 +1,4 @@
-import Alpine from "alpinejs"
+import {createApp} from 'vue'
 import Tagify from '@yaireo/tagify'
 import Papa from 'papaparse'
 
@@ -20,25 +20,28 @@ window.addEventListener("keydown", (e) => {
     }
 })
 
-
-Alpine.data('storyData', () => ({
-    stories: [],
-    allStories: [],
-
-    handleTagChange(evt) {
-        let filterTags = evt.detail
-
-        if (filterTags.length == 0) { this.stories = this.allStories }
-        else {
-            this.stories = this.allStories.filter(s => filterTags.every(ft => s.Tags.includes(ft)))
+const app = createApp({
+    data() {
+        return {
+            stories: [],
+            allStories: []
         }
     },
 
-    addTag(tag) {
-        tagify.addTags([tag])
-    },
+    methods: {
+        handleTagChange(evt) {
+            let filterTags = evt.detail
+            if (filterTags.length == 0) { this.stories = this.allStories }
+            else {
+                this.stories = this.allStories.filter(s => filterTags.every(ft => s.Tags.includes(ft)))
+            }
+        },
 
-    init: async function() {
+        addTag(tag) {
+            tagify.addTags([tag])
+        },
+    },
+    mounted: async function() {
         let data = await new Promise(resolve => {
             Papa.parse("stories.csv", {
                 download: true,
@@ -58,7 +61,10 @@ Alpine.data('storyData', () => ({
         this.allStories = data
         this.stories = data
         tagify.whitelist = [... new Set(data.flatMap(x => x.Tags).sort())]
-    }
-}))
 
-Alpine.start()
+        document.addEventListener('tagchange', this.handleTagChange)
+    }
+})
+app.mount('#app')
+
+
