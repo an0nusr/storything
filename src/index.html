@@ -28,19 +28,7 @@
             </div>
         </form>
 
-        <div id="app" class="flex flex-wrap justify-around">
-            <article class="hidden ba mv4 ma2 w-40-ns w-100" v-for="story in stories" :key="story.Link">
-                <h1 class="f4 bg-near-black white mv0 pv2 ph3">
-                    <a class="link white dim" :href="story.Link" v-text="story.Title"></a>
-                </h1>
-                <div class="pa3 bt">
-                    <p class="f6 f5-ns lh-copy measure mv0" v-html="story.Summary.replaceAll('\n', '<br/>')"></p>
-                </div>
-                <div class="pa3">
-                    <a v-for="tag in story.Tags" class="bg-light-blue white pa2 ma1 dib link dim" v-text="tag" href="#" @click="addTag(tag)"></a>
-                </div>
-            </article>
-        </div>
+        <div id="app"></div>
         
     </body>
 </html>

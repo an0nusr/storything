@@ -594,6 +594,20 @@
     posthtml-render "^3.0.0"
     semver "^5.7.1"
 
+"@parcel/transformer-vue@2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@parcel/transformer-vue/-/transformer-vue-2.4.1.tgz#b93317093a33bf0926ba7de7f7c440b51daa559a"
+  integrity sha512-zPqNZs6Xve16FdRe03LwYXxNIvLSDW3LYMMnytL4rYnfByStDSKqwAQUcqOfByRY7Jh16VkpzYoJabC5QcT/gg==
+  dependencies:
+    "@parcel/diagnostic" "2.4.1"
+    "@parcel/plugin" "2.4.1"
+    "@parcel/source-map" "^2.0.0"
+    "@parcel/utils" "2.4.1"
+    "@vue/compiler-sfc" "^3.2.27"
+    consolidate "^0.16.0"
+    nullthrows "^1.1.1"
+    semver "^5.7.1"
+
 "@parcel/types@2.4.1":
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@parcel/types/-/types-2.4.1.tgz#4cd7b99db403ec36a1fe9f31a6320b2f6148f580"
@@ -673,7 +687,7 @@
     "@vue/compiler-core" "3.2.33"
     "@vue/shared" "3.2.33"
 
-"@vue/compiler-sfc@3.2.33":
+"@vue/compiler-sfc@3.2.33", "@vue/compiler-sfc@^3.2.27":
   version "3.2.33"
   resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.2.33.tgz#7ce01dc947a8b76c099811dc6ca58494d4dc773d"
   integrity sha512-H8D0WqagCr295pQjUYyO8P3IejM3vEzeCO1apzByAEaAR/WimhMYczHfZVvlCE/9yBaEu/eu9RdiWr0kF8b71Q==
@@ -781,6 +795,11 @@ base-x@^3.0.8:
   dependencies:
     safe-buffer "^5.0.1"
 
+bluebird@^3.7.2:
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
+  integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
+
 boolbase@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
@@ -872,6 +891,13 @@ commander@^7.0.0, commander@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
+
+consolidate@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/consolidate/-/consolidate-0.16.0.tgz#a11864768930f2f19431660a65906668f5fbdc16"
+  integrity sha512-Nhl1wzCslqXYTJVDyJCu3ODohy9OfBMB5uD2BiBTzd7w+QY0lBzafkR8y8755yMYHAaMD4NuzbAw03/xzfw+eQ==
+  dependencies:
+    bluebird "^3.7.2"
 
 cosmiconfig@^7.0.1:
   version "7.0.1"
